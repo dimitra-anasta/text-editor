@@ -3,9 +3,6 @@ const WebpackPwaManifest = require('webpack-pwa-manifest');
 const path = require('path');
 const { InjectManifest } = require('workbox-webpack-plugin');
 
-// TODO: Add and configure workbox plugins for a service worker and manifest file.
-// TODO: Add CSS loaders and babel to webpack.
-
 module.exports = () => {
   return {
     mode: 'development',
@@ -25,15 +22,18 @@ module.exports = () => {
       new InjectManifest ({
         swSrc:'./src-sw.js',
         swDest: 'src-sw.js',
-
       }),
       new WebpackPwaManifest({
         fingerprints: false,
         inject: true,
+        ios: {
+          'apple-touch-icon': 'JATE',
+          'apple-mobile-web-app-capable': true
+        },
         name: 'Text-Editor',
         short_name: 'PWA-text-editor',
         description: 'This is a text editor!',
-        background_color: '31a9e1',
+        background_color: '#31a9e1',
         theme_color: '#31a9e1',
         start_url: './',
         publicPath: './',
@@ -41,8 +41,9 @@ module.exports = () => {
         icons: [
           {
             src: path.resolve('src/images/logo.png'),
-            sizes: [96, 128, 192, 256, 384, 512],
+            sizes: [96, 128, 144, 192, 256, 384, 512],
             destination: path.join('assets', 'icons'),
+            purpose: 'any',
           },
         ],
       }),
